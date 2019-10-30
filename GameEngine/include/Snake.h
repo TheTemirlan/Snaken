@@ -8,5 +8,8 @@ class Snake
 {
 public:
 	Snake(const Vector2f&, int);
+
+private:
+
 };
 
