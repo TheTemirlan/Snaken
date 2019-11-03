@@ -159,12 +159,16 @@
     <ClInclude Include="include\MapPoint.h" />
     <ClInclude Include="include\Snake.h" />
     <ClInclude Include="include\Map.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\MapPoint.cpp" />
     <ClCompile Include="src\Snake.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
