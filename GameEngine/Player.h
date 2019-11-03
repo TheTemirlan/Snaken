@@ -6,7 +6,7 @@ class Player
 public:
 	Player();
 
-	void update();
+	void update(float dt);
 
 	sf::RectangleShape& getShape();
 private:
@@ -15,6 +15,6 @@ private:
 
 
 	//functions
-	void updateMovement();
+	void updateMovement(float dt);
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include"SFML/Graphics.hpp"
 #include "Player.h"
+#include <Map.h>
 
 class Window
 {
@@ -12,6 +13,9 @@ public:
 	}
 
 	void draw(Player player);
+	
+	void draw(Map map);
+
 
 private:
 	sf::RenderWindow window; 

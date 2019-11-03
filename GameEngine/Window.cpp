@@ -13,3 +13,8 @@ void Window::draw(Player player)
 	
 	window.draw(playerShape);
 }
+
+void Window::draw(Map map)
+{
+
+}

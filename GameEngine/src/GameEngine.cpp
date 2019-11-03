@@ -8,7 +8,8 @@
 
 GameEngine::GameEngine():
 	window(123, 123, "someName"),//only for now
-	quitEvent()
+	quitEvent(),
+	map(800,400)
 {
 	
 }
@@ -19,6 +20,7 @@ void GameEngine::run()
 
 	while (window.getInstance().isOpen())
 	{
+		updateDt();
 		update();
 		render();
 	}
@@ -27,7 +29,7 @@ void GameEngine::run()
 void GameEngine::update()
 {
 	checkForQuit();
-	player.update();
+	player.update(this->dt);
 
 }
 
@@ -35,10 +37,22 @@ void GameEngine::render()
 {
 	auto& window = this->window.getInstance();
 
-	//Epilepsiya effect	
+	
 	window.clear();
+
 	this->window.draw(player);
+
+
 	window.display();
+}
+
+void GameEngine::updateDt()
+{
+	//DEBUG
+	//system("cls");
+	//std::cout << dt << std::endl;
+
+	this->dt = this->dtClock.restart().asSeconds();
 }
 
 void GameEngine::checkForQuit()
