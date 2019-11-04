@@ -2,7 +2,7 @@
 #include "SFML/Graphics.hpp"
 #include <MapPoint.h>
 
-enum class PlayerDirection { Up, Left, Right, Down };
+enum class PlayerDirection { Up, Left, Right, Down, None };
 
 class Map
 {

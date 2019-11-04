@@ -2,6 +2,30 @@
 #include "SFML/Graphics.hpp"
 #include <Map.h>
 
+using Coords = std::pair<int, int>;
+
+class SnakeNode {
+public:
+	SnakeNode* first;
+	Coords second;
+	SnakeNode(SnakeNode* first, Coords second):
+		first(first),
+		second(second)
+	{}
+	Coords setNewCoords(Coords coords) {
+		Coords result = this->second;
+		if (this->first != nullptr) {
+			result = this->first->setNewCoords(this->second);
+			this->second = coords;
+		}
+		else {
+			this->second = coords;
+		}
+		return result;
+	}
+};
+
+
 class Player
 {
 public:
@@ -15,13 +39,20 @@ private:
 	sf::RectangleShape playerShape;
 
 	std::vector<std::vector<MapPointType>>& map;
-	std::pair<int, int> curPos;
+	SnakeNode* headPos;
+
+	Coords startPos;
+	int startLength;
 
 	//functions
 	void updateMovement(float dt);
 
-	void checkForCollision(PlayerDirection direction);
+	void updateMap();
 
-	void checkForMapBorder(PlayerDirection direction);
+	void checkForMapBorder(Coords& coords);
+
+	void chechForBorders();
+
+	void lose();
 };
 

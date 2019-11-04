@@ -38,15 +38,10 @@ void GameEngine::render()
 {
 	auto& window = this->window.getInstance();
 
-	
 	window.clear();
 
-	
 	this->window.draw(map);
 	
-	
-
-	//this->window.draw(player);
 
 	window.display();
 }

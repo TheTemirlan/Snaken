@@ -21,9 +21,18 @@ Map::Map(int width, int heigth) :
 	}
 
 	//Delete later
-	map[10][1] = MapPointType::Food;
-	map[11][1] = MapPointType::Food;
-	map[12][1] = MapPointType::Food;
+	map[20][1] = MapPointType::Food;
+	map[21][1] = MapPointType::Food;
+	map[22][1] = MapPointType::Food;
+	map[23][1] = MapPointType::Food;
+	map[24][1] = MapPointType::Food;
+	map[25][1] = MapPointType::Food;
+	map[26][1] = MapPointType::Food;
+	map[27][1] = MapPointType::Food;
+	map[28][1] = MapPointType::Food;
+	map[29][1] = MapPointType::Food;
+	map[30][1] = MapPointType::Food;
+	
 }
 
 void Map::CreateMap()

@@ -5,10 +5,10 @@ Window::Window(int width, int heigth, std::string windName) :
 	colors(4),
 	shapes(4)
 {
-	this->colors[(int)MapPointType::Snake] = sf::Color::Black;
+	this->colors[(int)MapPointType::Snake] = sf::Color::Red;
 	this->colors[(int)MapPointType::Food] = sf::Color::Green;
-	this->colors[(int)MapPointType::Border] = sf::Color::Cyan;
-	this->colors[(int)MapPointType::Default] = sf::Color::Blue;
+	this->colors[(int)MapPointType::Border] = sf::Color::Black;
+	this->colors[(int)MapPointType::Default] = sf::Color::White;
 	
 	this->shapes[(int)MapPointType::Snake] = sf::RectangleShape(sf::Vector2f(10.f, 10.f));
 	this->shapes[(int)MapPointType::Food] = sf::RectangleShape(sf::Vector2f(10.f, 10.f));
@@ -46,8 +46,10 @@ void Window::draw(Map& map)
 	{
 		for (size_t j = 0; j < 40; j++)
 		{
-			shapes[(int)map.map[i][j]].setPosition(sf::Vector2f((float)(i * 10), (float)(j * 10)));
-			window.draw(shapes[(int)map.map[i][j]]);
+			shapes[(int)(map.map[i][j])].setPosition(sf::Vector2f((float)(i * 10), (float)(j * 10)));
+			
+
+			window.draw(shapes[(int)(map.map[i][j])]);
 		}
 	}
 }
@@ -57,21 +59,28 @@ void Window::draw(MapPointType pointType)
 	
 }
 
-//void Window::draw(Map& map)
-//{
-//	for (auto& row : map.map)
-//	{
-//		for (auto& mapPoint : row)
-//		{
-//			this->draw(*mapPoint);
-//		}
-//	}
-//}
+PlayerDirection Window::getInvers(PlayerDirection dir)
+{
+	switch (dir)
+	{
+	case PlayerDirection::Up:
+		return PlayerDirection::Down;
+		break;
+	case PlayerDirection::Left:
+		return PlayerDirection::Right;
+		break;
+	case PlayerDirection::Right:
+		return PlayerDirection::Left;
+		break;
+	case PlayerDirection::Down:
+		return PlayerDirection::Up;
+		break;
+	case PlayerDirection::None:
+		return PlayerDirection::None;
+		break;
+	default:
+		break;
+	}
+}
 
-//void Window::draw(MapPoint& point)
-//{
-//	pointShape.setPosition(point.scale);
-//	pointShape.setFillColor(this->colors[(int)point.type]);
-//
-//	window.draw(pointShape);
-//}
+
