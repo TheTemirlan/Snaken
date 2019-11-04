@@ -2,17 +2,24 @@
 #include "SFML/Graphics.hpp"
 #include <MapPoint.h>
 
+enum class PlayerDirection { Up, Left, Right, Down };
+
 class Map
 {
 public: 
 	Map(int width, int heigth);
 	void CreateMap();
 
-	friend class Window;
-private:
-	std::vector<std::vector<MapPoint*>> map;
+	void update(float dt);
 
-	void update();
+	friend class Window;
+
+	std::vector<std::vector<MapPointType>>& getMap();
+private:
+	std::vector<std::vector<MapPointType>> map;
+
+
+
 
 };
 

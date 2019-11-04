@@ -11,6 +11,7 @@ public:
 	MapPoint(sf::Vector2f, MapPointType type);
 
 	friend class Map;
+	friend class Window;
 private:
 	sf::Vector2f scale;
 	MapPointType type;

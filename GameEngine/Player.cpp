@@ -1,8 +1,11 @@
 #include "Player.h"
 #include <iostream>
+#include <thread>
 
-Player::Player():
-	playerShape(sf::Vector2f(20.f,20.f))
+Player::Player(std::vector<std::vector<MapPointType>>& map):
+	playerShape(sf::Vector2f(10.f,10.f)),
+	map(map),
+	curPos(1,1)
 {
 
 }
@@ -19,60 +22,76 @@ sf::RectangleShape& Player::getShape()
 
 void Player::updateMovement(float dt)
 {
-	// DEBUG
-	std::cout << "Player " << playerShape.getPosition().x << "\t" << playerShape.getPosition().y << std::endl;
-	
-	static float step = 400;
-	static float deltaY = 0.f,
-		deltaX = step;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	static PlayerDirection direction = PlayerDirection::Right;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && (direction != PlayerDirection::Down))
 	{
-		step += 20.f;
+		direction = PlayerDirection::Up;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (direction != PlayerDirection::Right))
 	{
-		step -= 20.f;
+		direction = PlayerDirection::Left;
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && (direction != PlayerDirection::Up))
+	{
+		direction = PlayerDirection::Down;
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && (direction != PlayerDirection::Left))
+	{
+		direction = PlayerDirection::Right;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && (deltaY == 0.f))
-	{
-		deltaY = -step;
-		deltaX = 0.f;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (deltaX == 0.f))
-	{
-		deltaX = -step;
-		deltaY = 0.f;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && (deltaY == 0.f))
-	{
-		deltaY = step;
-		deltaX = 0.f;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && (deltaX == 0.f))
-	{
-		deltaX = step;
-		deltaY = 0.f;
-	}
-	
-	if (playerShape.getPosition().x > 800.f)
-		playerShape.setPosition(
-			0.f,
-			playerShape.getPosition().y);
-	if (playerShape.getPosition().x < 0.f)
-		playerShape.setPosition(
-			800.f,
-			playerShape.getPosition().y);
-	if (playerShape.getPosition().y > 400.f)
-		playerShape.setPosition(
-			playerShape.getPosition().x,
-			0.f);
-	if (playerShape.getPosition().y < 0.f)
-		playerShape.setPosition(
-			playerShape.getPosition().x,
-			400.f);
+	auto oldPos = this->curPos;
 
-	playerShape.setPosition(
-		playerShape.getPosition().x + deltaX * dt, 
-		playerShape.getPosition().y + deltaY * dt);
+	switch (direction)
+	{
+	case PlayerDirection::Up:
+		this->curPos.second--;
+		break;
+	case PlayerDirection::Left:
+		this->curPos.first--;
+		break;
+	case PlayerDirection::Right:
+		this->curPos.first++;
+		break;
+	case PlayerDirection::Down:
+		this->curPos.second++;
+		break;
+	default:
+		break;
+	}
+	this->checkForMapBorder(direction);
+	this->checkForCollision(direction);
+	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	//TODO: fist possition is not clearing
+
+	//DEBUG 
+	/*system("cls");
+	std::cout << "player curpos" << this->curPos.first << "\t" << this->curPos.second << std::endl;
+	std::cout << "player oldpos" << oldPos.first << "\t" << oldPos.second << std::endl;*/
+
+	map[this->curPos.first][this->curPos.second] = MapPointType::Snake;
+	map[oldPos.first][oldPos.second] = MapPointType::Default;
+}
+
+void Player::checkForCollision(PlayerDirection direction)
+{
+	if (this->map[curPos.first][curPos.second] == MapPointType::Food)
+	{
+		map[curPos.first][curPos.second] = MapPointType::Border;
+		map[rand() % 80][rand() % 40] = MapPointType::Food;
+
+	}
+}
+
+void Player::checkForMapBorder(PlayerDirection direction)
+{
+	if (this->curPos.first == 80)
+		this->curPos.first = 0;
+	if (this->curPos.first == -1)
+		this->curPos.first = 79;
+	if (this->curPos.second == 40)
+		this->curPos.second = 0;
+	if (this->curPos.second == -1)
+		this->curPos.second = 39;
 }

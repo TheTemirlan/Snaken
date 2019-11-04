@@ -9,7 +9,8 @@
 GameEngine::GameEngine():
 	window(123, 123, "someName"),//only for now
 	quitEvent(),
-	map(800,400)
+	map(80,40),
+	player(map.getMap())
 {
 	
 }
@@ -29,8 +30,8 @@ void GameEngine::run()
 void GameEngine::update()
 {
 	checkForQuit();
-	player.update(this->dt);
-
+	this->player.update(this->dt);
+	this->map.update(dt);
 }
 
 void GameEngine::render()
@@ -40,8 +41,12 @@ void GameEngine::render()
 	
 	window.clear();
 
-	this->window.draw(player);
+	
+	this->window.draw(map);
+	
+	
 
+	//this->window.draw(player);
 
 	window.display();
 }

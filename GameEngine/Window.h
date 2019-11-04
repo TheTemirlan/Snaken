@@ -12,13 +12,23 @@ public:
 		return window;
 	}
 
-	void draw(Player player);
+	void draw(Player& player);
 	
-	void draw(Map map);
+	void draw(Map& map);
+	
+	void draw(MapPointType pointType);
 
-
+	
 private:
-	sf::RenderWindow window; 
+	//members
+	sf::RenderWindow window;
 
+	std::vector<sf::Color> colors;
+
+	std::vector<sf::RectangleShape> shapes;
+
+	
+	//functions
+	void draw(MapPoint& point);
 };
 
