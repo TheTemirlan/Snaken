@@ -7,13 +7,13 @@
 
 
 GameEngine::GameEngine() :
-	window(123, 123, "someName"),//only for now
+	window(800, 400, "someName"),//only for now
 	quitEvent(),
 	map(80, 40),
 	player(map.getMap()),
 	clock()
 {
-
+	
 }
 
 void GameEngine::run()
@@ -22,8 +22,9 @@ void GameEngine::run()
 
 	while (window.getInstance().isOpen())
 	{
+		system("cls");
 		auto currentTime = clock.getElapsedTime();
-		updateDt();
+		oftenUpdate();
 		if (currentTime.asMilliseconds() - previousUpdateTime_ > deltaTime_) {
 			update();
 			render();
@@ -35,8 +36,9 @@ void GameEngine::run()
 void GameEngine::update()
 {
 	checkForQuit();
-	this->player.update(this->dt);
+	this->player.update(this->dt, this->window.getInstance().getPosition());
 	this->map.update(dt);
+	
 }
 
 void GameEngine::render()
@@ -51,9 +53,10 @@ void GameEngine::render()
 	window.display();
 }
 
-void GameEngine::updateDt()
+void GameEngine::oftenUpdate()
 {
 	this->player.updateDirection();
+	this->player.updateMouse(this->window.getInstance().getPosition());
 }
 
 void GameEngine::checkForQuit()

@@ -31,6 +31,6 @@ private:
 
 	void render();
 
-	void updateDt();
+	void oftenUpdate();
 	void checkForQuit();
 };

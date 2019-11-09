@@ -52,10 +52,12 @@ class Player
 public:
 	Player(std::vector<std::vector<MapPointType>>& map);
 
-	void update(float dt);
+	void update(float dt, sf::Vector2i windPos);
 
 	void updateDirection();
-	
+
+	void updateMouse(sf::Vector2i windPos);
+
 	sf::RectangleShape& getShape();
 private:
 	//members
@@ -66,6 +68,9 @@ private:
 
 	Coords startPos;
 	int startLength;
+	
+	sf::Vector2i windPos;
+	
 
 	PlayerDirection direction = PlayerDirection::Right;
 
@@ -77,9 +82,11 @@ private:
 
 	void checkForMapBorder(Coords& coords);
 
-	void dontMove();
-
 	void lose(Coords& cutTo);
+
+	
+
+	void mousePaint(sf::Vector2i mousePos);
 
 	PlayerDirection getInvers(PlayerDirection dir);
 };

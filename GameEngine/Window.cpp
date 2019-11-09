@@ -1,10 +1,12 @@
 #include "Window.h"
 
 Window::Window(int width, int heigth, std::string windName) :
-	window(sf::VideoMode(800, 400), "main window"),
+	window(sf::VideoMode(width, heigth), "main window"),
 	colors(4),
 	shapes(4)
 {
+	
+
 	this->colors[(int)MapPointType::Snake] = sf::Color::Red;
 	this->colors[(int)MapPointType::Food] = sf::Color::Green;
 	this->colors[(int)MapPointType::Border] = sf::Color::Black;
