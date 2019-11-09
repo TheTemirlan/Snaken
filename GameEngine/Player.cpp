@@ -43,6 +43,11 @@ void Player::updateMovement(float dt)
 {
 	auto nextPos = this->headPos->second;
 
+	static PlayerDirection oldDirection = this->direction;
+
+	if (oldDirection == this->getInvers(this->direction))
+		direction = oldDirection;
+
 	switch (direction)
 	{
 	case PlayerDirection::Up:
@@ -65,8 +70,21 @@ void Player::updateMovement(float dt)
 		break;
 	}
 
-	//CheckForMapBorder
+	oldDirection = this->direction;
+
 	this->checkForMapBorder(nextPos);
+
+
+
+
+	//CheckForBorderCollision
+	if (this->map[nextPos.first][nextPos.second] == MapPointType::Border)
+	{
+		return;
+	}
+
+
+
 	//CheckForFoodCollision
 	if (this->map[nextPos.first][nextPos.second] == MapPointType::Food)
 	{
@@ -77,26 +95,22 @@ void Player::updateMovement(float dt)
 		this->map[rand() % 80][rand() % 40] = MapPointType::Food;
 	}
 	
-
-
-	
 	//SimpleMovement
 	if (this->map[nextPos.first][nextPos.second] == MapPointType::Default)
 	{
 		auto result = this->headPos->setNewCoords(nextPos);
 		map[result.first][result.second] = MapPointType::Default;
 	}
+	
 	if (this->map[nextPos.first][nextPos.second] == MapPointType::Snake)
 	{
-		this->lose();
+		this->lose(nextPos);
+		this->map[nextPos.first][nextPos.second] == MapPointType::Default;
 	}
 
 		
 	this->updateMap();
 
-	
-	
-	std::this_thread::sleep_for(std::chrono::milliseconds((int)(400 * dt)));
 
 }
 
@@ -126,10 +140,53 @@ void Player::checkForMapBorder(Coords& nextPos)
 		nextPos.first = 79;
 }
 
-void Player::lose()
+void Player::lose(Coords& collisionCoords)
 {
-	while (1) {
+	auto posToCut = this->headPos->first;
+	while (posToCut->first != nullptr)
+	{
+		if (posToCut->first->second.first == collisionCoords.first && posToCut->first->second.second == collisionCoords.second)
+			break;
+		posToCut = posToCut->first;
+	}
+	
+	
+	
+	auto cutFrom = posToCut;
+	posToCut = posToCut->first;
+	while (posToCut != nullptr)
+	{
+		this->map[posToCut->second.first][posToCut->second.second] = MapPointType::Default;
+		posToCut = posToCut->first;
+	}
+
+	cutFrom->cutFrom(cutFrom);
+	/*while (1) {
 		std::cout << "You lost!" << std::endl;
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	}*/
+}
+
+PlayerDirection Player::getInvers(PlayerDirection dir)
+{
+	switch (dir)
+	{
+	case PlayerDirection::Up:
+		return PlayerDirection::Down;
+		break;
+	case PlayerDirection::Left:
+		return PlayerDirection::Right;
+		break;
+	case PlayerDirection::Right:
+		return PlayerDirection::Left;
+		break;
+	case PlayerDirection::Down:
+		return PlayerDirection::Up;
+		break;
+	case PlayerDirection::None:
+		return PlayerDirection::None;
+		break;
+	default:
+		break;
 	}
 }

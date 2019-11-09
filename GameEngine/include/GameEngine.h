@@ -23,7 +23,7 @@ private:
 	sf::Clock dtClock;
 	float dt;
 	int previousUpdateTime_ = 0;
-	int deltaTime_ = 200;
+	int deltaTime_ = 50;
 	sf::Clock clock;
 
 	//functions

@@ -27,7 +27,7 @@ private:
 
 	std::vector<sf::RectangleShape> shapes;
 
-	PlayerDirection getInvers(PlayerDirection dir);
+	
 	
 	//functions
 	void draw(MapPoint& point);

@@ -23,6 +23,27 @@ public:
 		}
 		return result;
 	}
+	void cutFrom(SnakeNode* node) {
+		if (node->first == nullptr) {
+			return;
+		}
+		if (node->first->first == nullptr)
+		{
+			delete node->first;
+			node->first = nullptr;
+			return;
+		}
+		auto next = node->first;
+		node->first = nullptr;
+		node = next;
+		while (next != nullptr)
+		{
+			next = node->first;
+			delete node;
+			node = next;
+		}
+		
+	}
 };
 
 
@@ -56,8 +77,10 @@ private:
 
 	void checkForMapBorder(Coords& coords);
 
-	void chechForBorders();
+	void dontMove();
 
-	void lose();
+	void lose(Coords& cutTo);
+
+	PlayerDirection getInvers(PlayerDirection dir);
 };
 

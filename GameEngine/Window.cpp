@@ -59,28 +59,6 @@ void Window::draw(MapPointType pointType)
 	
 }
 
-PlayerDirection Window::getInvers(PlayerDirection dir)
-{
-	switch (dir)
-	{
-	case PlayerDirection::Up:
-		return PlayerDirection::Down;
-		break;
-	case PlayerDirection::Left:
-		return PlayerDirection::Right;
-		break;
-	case PlayerDirection::Right:
-		return PlayerDirection::Left;
-		break;
-	case PlayerDirection::Down:
-		return PlayerDirection::Up;
-		break;
-	case PlayerDirection::None:
-		return PlayerDirection::None;
-		break;
-	default:
-		break;
-	}
-}
+
 
 

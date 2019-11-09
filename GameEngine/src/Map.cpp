@@ -22,16 +22,14 @@ Map::Map(int width, int heigth) :
 
 	//Delete later
 	map[20][1] = MapPointType::Food;
-	map[21][1] = MapPointType::Food;
-	map[22][1] = MapPointType::Food;
-	map[23][1] = MapPointType::Food;
-	map[24][1] = MapPointType::Food;
-	map[25][1] = MapPointType::Food;
-	map[26][1] = MapPointType::Food;
-	map[27][1] = MapPointType::Food;
-	map[28][1] = MapPointType::Food;
-	map[29][1] = MapPointType::Food;
-	map[30][1] = MapPointType::Food;
+	for (size_t i = 10; i < 50; i++)
+	{
+		map[i][1] = MapPointType::Food;
+	}
+	for (size_t i = 20; i < 30; i++)
+	{
+		map[50][i] = MapPointType::Border;
+	}
 	
 }
 
