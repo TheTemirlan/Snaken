@@ -22,12 +22,14 @@ private:
 
 	sf::Clock dtClock;
 	float dt;
+	int previousUpdateTime_ = 0;
+	int deltaTime_ = 200;
+	sf::Clock clock;
 
 	//functions
 	void update();
 
 	void render();
-
 
 	void updateDt();
 	void checkForQuit();

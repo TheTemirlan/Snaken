@@ -33,6 +33,8 @@ public:
 
 	void update(float dt);
 
+	void updateDirection();
+	
 	sf::RectangleShape& getShape();
 private:
 	//members
@@ -44,8 +46,11 @@ private:
 	Coords startPos;
 	int startLength;
 
+	PlayerDirection direction = PlayerDirection::Right;
+
 	//functions
 	void updateMovement(float dt);
+
 
 	void updateMap();
 

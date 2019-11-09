@@ -6,13 +6,14 @@
 #include <SFML/Graphics.hpp>
 
 
-GameEngine::GameEngine():
+GameEngine::GameEngine() :
 	window(123, 123, "someName"),//only for now
 	quitEvent(),
-	map(80,40),
-	player(map.getMap())
+	map(80, 40),
+	player(map.getMap()),
+	clock()
 {
-	
+
 }
 
 void GameEngine::run()
@@ -21,9 +22,13 @@ void GameEngine::run()
 
 	while (window.getInstance().isOpen())
 	{
+		auto currentTime = clock.getElapsedTime();
 		updateDt();
-		update();
-		render();
+		if (currentTime.asMilliseconds() - previousUpdateTime_ > deltaTime_) {
+			update();
+			render();
+			previousUpdateTime_ = currentTime.asMilliseconds();
+		}
 	}
 }
 
@@ -41,24 +46,20 @@ void GameEngine::render()
 	window.clear();
 
 	this->window.draw(map);
-	
+
 
 	window.display();
 }
 
 void GameEngine::updateDt()
 {
-	//DEBUG
-	//system("cls");
-	//std::cout << dt << std::endl;
-
-	this->dt = this->dtClock.restart().asSeconds();
+	this->player.updateDirection();
 }
 
 void GameEngine::checkForQuit()
 {
 	auto& window = this->window.getInstance();
-	
+
 	while (window.pollEvent(quitEvent))
 		if (quitEvent.type == sf::Event::Closed)
 			window.close();

@@ -20,10 +20,7 @@ sf::RectangleShape& Player::getShape()
 	return playerShape;
 }
 
-void Player::updateMovement(float dt)
-{
-	static PlayerDirection direction = PlayerDirection::Right;
-
+void Player::updateDirection() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && (direction != PlayerDirection::Down))
 	{
 		direction = PlayerDirection::Up;
@@ -40,7 +37,10 @@ void Player::updateMovement(float dt)
 	{
 		direction = PlayerDirection::Right;
 	}
+}
 
+void Player::updateMovement(float dt)
+{
 	auto nextPos = this->headPos->second;
 
 	switch (direction)
